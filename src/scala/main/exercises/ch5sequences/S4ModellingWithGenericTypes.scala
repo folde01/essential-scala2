@@ -25,7 +25,10 @@ object S4ModellingWithGenericTypes extends App {
 
   sealed trait Sum[A, B] {
     // 5.4.6.3
-    def fold[A, B, C]():
+    def fold[A, B, C](f1: A => C, f2: B => C): C = this match {
+      case Left(value) => f1(value)
+      case Right(value) => f2(value)
+    }
   }
 
   final case class Left[A, B](value: A) extends Sum[A, B]
