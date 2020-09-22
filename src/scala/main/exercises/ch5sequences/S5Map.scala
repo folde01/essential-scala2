@@ -37,12 +37,31 @@ object S5Map extends App {
       case Full(value) => fn(value)
       case Empty() => Empty[B]()
     }
+
+    // 5.5.4.2 Mapping Maybe - p150
+
+    def map[B](fn: A => B): Maybe[B] = this match {
+      case Full(v) => Full(fn(v))
+      case Empty() => Empty[B]()
+    }
   }
 
   final case class Full[A](value: A) extends Maybe[A]
 
   final case class Empty[A]() extends Maybe[A]
 
+  // test 5.5.4.2
+
+  val fullInt: Maybe[Int] = Full(1)
+  def intToString(n: Int): String = "cat"
+  println(s"test 5.5.4.1: ${fullInt.map(intToString)}")
+
+  val emptyInt: Maybe[Int] = Empty()
+  println(s"test 5.5.4.1: ${emptyInt.map(intToString)}")
+
+
+
+  // example p148
   def mightFail1: Maybe[Int] = Full(1)
 
   def mightFail2: Maybe[Int] = Full(2)
@@ -82,6 +101,8 @@ object S5Map extends App {
   println(list.map(x => 2 * x))
   println(list.map(x => 1 + x))
   println(list.map(x => x / 3))
+
+
 
 
 }
