@@ -44,6 +44,13 @@ object S5Map extends App {
       case Full(v) => Full(fn(v))
       case Empty() => Empty[B]()
     }
+
+    // 5.5.4.2 map in terms of flatMap
+
+    def flatMapMap[B](fn: A => B): Maybe[B] = {
+      def fn2(a: A): Maybe[B] = Full(fn(a))
+      flatMap[B](fn2)
+    }
   }
 
   final case class Full[A](value: A) extends Maybe[A]
@@ -55,9 +62,11 @@ object S5Map extends App {
   val fullInt: Maybe[Int] = Full(1)
   def intToString(n: Int): String = "cat"
   println(s"test 5.5.4.1: ${fullInt.map(intToString)}")
+  println(s"test 5.5.4.1: ${fullInt.flatMapMap(intToString)}")
 
   val emptyInt: Maybe[Int] = Empty()
   println(s"test 5.5.4.1: ${emptyInt.map(intToString)}")
+  println(s"test 5.5.4.1: ${emptyInt.flatMapMap(intToString)}")
 
 
 
