@@ -69,5 +69,19 @@ object S5Map extends App {
 
   println(testMaybe2)
 
+  /* Summary:
+  We use map when we want to transform the value within the context to a new
+  value, while keeping the context the same. We use flatMap when we want
+  to transform the value and provide a new context.
+   */
+
+  // 5.5.4.1 Mapping lists - p150
+
+  val list: LinkedList[Int] = Pair(1, Pair(2, Pair(3, End())))
+
+  println(list.map(x => 2 * x))
+  println(list.map(x => 1 + x))
+  println(list.map(x => x / 3))
+
 
 }
