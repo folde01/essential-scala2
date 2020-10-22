@@ -1,5 +1,6 @@
 package main.exercises.ch5sequences
 
+/*
 object S5MapLiveCoding extends App {
   // Map
 
@@ -95,3 +96,6 @@ object S5MapLiveCoding extends App {
 
 
 }
+
+
+ */
