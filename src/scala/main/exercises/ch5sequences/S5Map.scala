@@ -53,8 +53,9 @@ object S5Map extends App {
       // so as the function passed to flatMap takes an A, we need a function that takes an A and gives us a Maybe[B].
       // fn turns A to B, and Full(fn(x)) turns an A into a Maybe[B]
       def fn2(a: A): Maybe[B] = Full(fn(a))
+
       flatMap[B](fn2)
-      // or, as per the solution, just... 
+      // or, as per the solution, just...
       // flatMap[B](v => Full(fn(v)))
     }
   }
@@ -66,13 +67,55 @@ object S5Map extends App {
   // test 5.5.4.2
 
   val fullInt: Maybe[Int] = Full(1)
+
   def intToString(n: Int): String = "cat"
+
   println(s"test 5.5.4.1: ${fullInt.map(intToString)}")
   println(s"test 5.5.4.1: ${fullInt.map2(intToString)}")
 
   val emptyInt: Maybe[Int] = Empty()
   println(s"test 5.5.4.1: ${emptyInt.map(intToString)}")
   println(s"test 5.5.4.1: ${emptyInt.map2(intToString)}")
+
+
+  // 5.5.4.3
+
+  val list5543: List[Maybe[Int]] = List(Full(3), Full(2), Full(1), Empty())
+
+  println(
+    s"5.5.4.3: " +
+      s"${
+        list5543.map(x => x match {
+          case Full(n) => if (n % 2 == 0) Full(n) else None
+          case _ => Empty()
+        })
+      }"
+  )
+
+
+  // question: how does this work when there is an Empty() in the list? ie what is 'x' in that case?
+  println(
+    s"5.5.4.3 - book solution" +
+      s"${
+        list5543.map(maybe => maybe.flatMap[Int] { x =>
+          if (x % 2 == 0) Full(x)
+          else Empty()
+        })
+      }"
+  )
+
+  println(
+    s"5.5.4.3 - again " +
+      s"${
+        list5543.map(maybe => maybe match {
+          case Full(n) => if (n % 2 == 0) Full(n) else Empty()
+          case Empty() => Empty()
+        }
+        )
+      }"
+  )
+
+  // 5.5.4.4 - see S4ModellingWithGenericTypes
 
 
 
@@ -116,8 +159,6 @@ object S5Map extends App {
   println(list.map(x => 2 * x))
   println(list.map(x => 1 + x))
   println(list.map(x => x / 3))
-
-
 
 
 }

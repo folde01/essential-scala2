@@ -20,30 +20,60 @@ object S4ModellingWithGenericTypes extends App {
   // 5.4.3.1
 
   def intOrString(input: Boolean): Sum[Int, String] =
-    if (input == true) Left[Int, String](123)
-    else Right[Int, String]("abc")
+    if (input == true) Failure[Int, String](123)
+    else Success[Int, String]("abc")
 
   sealed trait Sum[A, B] {
     // 5.4.6.3
-//    def fold[A, B, C](f1: A => C, f2: B => C): C = this match {
-//      case Left(value) => f1(value)
-//      case Right(value) => f2(value)
-//    }
+    //    def fold[A, B, C](f1: A => C, f2: B => C): C = this match {
+    //      case Left(value) => f1(value)
+    //      case Right(value) => f2(value)
+    //    }
+
+    // 5.5.4.4 - part 2
+    def map[C](f: B => C): Sum[A, C] = {
+      this match {
+        case Failure(v) => Failure(v)
+        case Success(v) => Success(f(v))
+      }
+    }
+
+    def flatMap[C](f: B => Sum[A, C]): Sum[A, C] =
+      this match {
+        case Failure(v) => Failure(v)
+        case Success(v) => f(v)
+      }
   }
 
-  final case class Left[A, B](value: A) extends Sum[A, B]
+  // 5.5.4.4 - part 1
 
-  final case class Right[A, B](value: B) extends Sum[A, B]
+  final case class Failure[A, B](value: A) extends Sum[A, B]
+
+  final case class Success[A, B](value: B) extends Sum[A, B]
+
+  val five: Sum[String, Int] = Success(5)
+  val pi: Sum[String, Int] = Failure("I'm not really pi, I'm just some words!")
+
+  def twoInts(n: Int): String = n.toString + n.toString
+
+  def twoInts2(n: Int) = Success(n).toString + Success(n).toString
+
+  val answer554421 = five.map(twoInts)
+  val answer554422 = pi.map(twoInts)
+  val answer554431 = five.flatMap(twoInts2)
+
+  println(s"5.5.4.4 part 2 - 1: " + answer554421)
+  println(s"5.5.4.4 part 2 - 2: " + answer554422)
 
   println(intOrString(true))
   println(intOrString(false))
-  println(Left[Int, String](1).value)
-  println(Right[Int, String]("foo").value)
-  val sum: Sum[Int, String] = Right("foo")
+  println(Failure[Int, String](1).value)
+  println(Success[Int, String]("foo").value)
+  val sum: Sum[Int, String] = Success("foo")
 
   sum match {
-    case Left(x) => x.toString
-    case Right(x) => x
+    case Failure(x) => x.toString
+    case Success(x) => x
   }
 
   // 5.4.4.1
@@ -65,10 +95,6 @@ object S4ModellingWithGenericTypes extends App {
   val perhaps2: Maybe[Int] = Full(1)
 
   // 5.4.6.1 - traits when inheritance is needed
-
-
-
-
 
 
 }
