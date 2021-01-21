@@ -1,3 +1,7 @@
+//////////////////////////////
+// NOTES FROM 7 JAN SESSION
+//////////////////////////////
+
 val sequence = Seq(1, 2, 3)
 sequence.apply(0)
 sequence(0)
@@ -53,6 +57,13 @@ Seq(1, 2, 3).permutations
 val x = Seq(5)
 x.foldLeft(1)(_ / _)
 //x.foldRight()
+
+
+
+//////////////////////////////
+// NOTES FOR 21 JAN SESSION
+//////////////////////////////
+
 
 /*
 
