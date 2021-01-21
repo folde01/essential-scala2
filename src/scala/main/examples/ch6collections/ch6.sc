@@ -170,6 +170,7 @@ List(a,b,c).foldLeft(z)(f) = f(f(f(z, a), b), c)
 List(5,10,15).foldLeft(100)((x, y) => x - y) = (f(f(z, a), b), c)
 List(5,10,15).foldLeft(100)(_ - _) = ???
 
+As an exercise let's work out the rest of the steps together...
 
  */
 
