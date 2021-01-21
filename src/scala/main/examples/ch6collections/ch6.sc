@@ -83,10 +83,22 @@ The associativity of an operator (e.g. addition or substraction) refers to wheth
 15 + 15
 30
 
+5 + 10 + 15
+5 + (10 + 15)
+5 + 25
+30
+
+commutative
+
 5 - 10 - 15
 (5 - 10) - 15
 -5 - 15
 -20
+
+5 - 10 - 15
+5 - (10 - 15)
+5 - -5
+10 ... mad universe
 
 5 * 10 * 15
 50 * 15
@@ -96,6 +108,13 @@ The associativity of an operator (e.g. addition or substraction) refers to wheth
 (5 / 10) / 15
 (1/2) / 15
 1/30
+
+[ order of operations, precedence...
+
+1 + (2 * 3)
+
+]
+
 
 = (aka 'the assignment operator') is right-associative ...
 
@@ -110,7 +129,7 @@ var b = 4
 a = b = 5
 
 a = (b = 5)
-a = (4)
+a = (5)
 
 
 What would the value of a be if we lived in a world where the assignment operator was left associative?
@@ -120,7 +139,7 @@ var b = 4
 a = b = 5
 
 (a = b) = 5
-3 = 5
+a = 5
 :(
 
 
@@ -148,7 +167,6 @@ List(5,10,15).foldLeft(100)((x,y) => x - y)
 List(5,10,15).foldLeft(100)(_ - _)
 
 /*
-
 FOLDRIGHT STEPS:
 
 List(a,b,c).foldRight(z)(f) = f(a, f(b, f(c, z)))
@@ -159,9 +177,8 @@ List(5,10,15).foldRight(100)(_ - _) = f(5, f(10, (15 - 100)))
 List(5,10,15).foldRight(100)(_ - _) = f(5, f(10, -85))
 List(5,10,15).foldRight(100)(_ - _) = f(5, (10 - -85))
 List(5,10,15).foldRight(100)(_ - _) = f(5, (10 + 85))
-List(5,10,15).foldRight(100)(_ - _) = f(5, (10 + 85))
 List(5,10,15).foldRight(100)(_ - _) = f(5, 95)
-List(5,10,15).foldRight(100)(_ - _) = (5 - 90)
+List(5,10,15).foldRight(100)(_ - _) = (5 - 95)
 List(5,10,15).foldRight(100)(_ - _) = -90
 
 */
@@ -185,5 +202,20 @@ As an exercise let's work out the rest of the steps together...
 
  */
 
+val f = (x: Int, y: Int) => x - y
+
+f(100, 5) // 95
+f(f(100, 5), 10)
+f(f(f(100, 5), 10), 15)
+
+
+val s = "jesse"
+
+s.foldLeft("foo")((x, y) => x + y.toUpper)
+
+
+// why does fold require two of the same type?
+
+// why choose fold over foldLeft/foldRight? is there something about having a guarantee or not having one that is good or bad?
 
 
