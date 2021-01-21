@@ -60,7 +60,7 @@ object S4ModellingWithGenericTypes extends App {
 
   val answer554421 = five.map(twoInts)
   val answer554422 = pi.map(twoInts)
-  val answer554431 = five.flatMap(twoInts2)
+//  val answer554431 = five.flatMap(twoInts2)
 
   println(s"5.5.4.4 part 2 - 1: " + answer554421)
   println(s"5.5.4.4 part 2 - 2: " + answer554422)
